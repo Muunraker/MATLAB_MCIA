@@ -63,6 +63,7 @@ end
 
 %% Plotting Results
 % Plotting first two global scores (principal components) in sample space
+% The first two block scores are plotted in different shapes, connected to global scores
 % With omicade initialization and 'block' deflation, replicates output of 'omicade' package
 
 global_xcoords = GS_norm(:,1); 
@@ -117,3 +118,8 @@ for i =1:num_blocks
 end
 title('Plot of Projections onto First Two Scores')
 grid on;
+
+%% Plotting singular value decline
+figure()
+bar(evals.^2)
+title('Singular Value Decline')
