@@ -7,3 +7,4 @@ Contains 'NCI60_Example.m' script to replicate the popular 'Omicade4' R package 
 Citations:
 * Meng, C., Kuster, B., Culhane, A. C., & Gholami, A. M. (2014). A multivariate approach to the integration of multi-omics datasets. BMC bioinformatics, 15(1), 1-13.
 * Hanafi, M., Kohler, A., & Qannari, E. M. (2011). Connections between multiple co-inertia analysis and consensus principal component analysis. Chemometrics and intelligent laboratory systems, 106(1), 37-40.
+* Meng, C., Zeleznik, O. A., Thallinger, G. G., Kuster, B., Gholami, A. M., & Culhane, A. C. (2016). Dimension reduction techniques for the integrative analysis of multi-omics data. Briefings in bioinformatics, 17(4), 628-641.
