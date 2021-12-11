@@ -5,8 +5,8 @@
 %       * miRNA.csv - 
 %       * prot.csv  - 
 
-addpath('.\Functions\') % Path to MCIA functions
-dataPath = '.\MCIA NCI60 Example\Data\'; % Path to folder containing data
+addpath('..\Functions\') % Path to MCIA functions
+dataPath = '.\Data\'; % Path to folder containing data
 
 %% Importing data:
 redo_import = 1;
@@ -37,6 +37,7 @@ num_PCs = 10; % number of embeddings desired
     nipals_multiBlock(blocks_normalized,num_PCs,1e-14,10000, 'block');
 
 %% Normalizing output
+num_blocks = length(blocks_raw);
 % Enforcing unit variance in global scores
 GS_norm = Global_scores;
 GL_norm = Global_loadings; 
@@ -61,8 +62,6 @@ end
 
 
 %% Plotting Results
-num_blocks = length(blocks_raw);
-
 % Plotting first two global scores (principal components) in sample space
 % With omicade initialization and 'block' deflation, replicates output of 'omicade' package
 
@@ -116,5 +115,5 @@ for i =1:num_blocks
        plot(ME_x(j),ME_y(j),['r',datablockMarkers{i}],'HandleVisibility','off')
     end
 end
-title('Plot of Projections')
+title('Plot of Projections onto First Two Scores')
 grid on;
