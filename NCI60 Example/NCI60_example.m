@@ -1,9 +1,9 @@
 % Script to implement MCIA on a cut version of the NCI-60 cancer cell line dataset
 % Example data taken from Omicade4 (Meng et. al. 2014)
 % Dataset has three different omics types:
-%       * mrna.csv  - 
-%       * miRNA.csv - 
-%       * prot.csv  - 
+%       * mrna
+%       * miRNA
+%       * proteins
 
 addpath('..\Functions\') % Path to MCIA functions
 dataPath = '.\Data\'; % Path to folder containing data
@@ -63,63 +63,27 @@ end
 
 %% Plotting Results
 % Plotting first two global scores (principal components) in sample space
-% The first two block scores are plotted in different shapes, connected to global scores
-% With omicade initialization and 'block' deflation, replicates output of 'omicade' package
+% Each block score is plotted with a different shape, connected by a line to the global score
 
-global_xcoords = GS_norm(:,1); 
-global_ycoords = GS_norm(:,2);
+% Compare to Figure 2A in (Meng et. al., 2016) if using 'omicade_initialization' 
+% and 'block' deflation.
 
-CNSx = global_xcoords(1:6);
-CNSy = global_ycoords(1:6);
-
-LEUx = global_xcoords(7:12);
-LEUy = global_ycoords(7:12);
-
-MEx = global_xcoords(13:21);
-MEy = global_ycoords(13:21);
-
-datablockMarkers = {'o','s','^'}; 
-
-clf; figure(1);
-scatter(CNSx,CNSy, 'g.');
-% Flipping axes if necessary:
-set(gca, 'YDir','reverse'); % Flip y axis
-% set(gca, 'XDir','reverse'); % Flip x axis
-hold on;
-scatter(LEUx,LEUy,'b.');
-scatter(MEx,MEy,'r.');
-legend('CNS','Leukaemia','Melanoma','Location','southeast')
-
+% Extracting first two global and block scores
+global_coords = GS_norm(:,1:2);
+block_coords = cell(1,num_blocks);
 for i =1:num_blocks
-    block_score = BS_norm{i};
-    block_x = block_score(:,1);
-    block_y = block_score(:,2);
-    
-    CNS_x = block_x(1:6);
-    CNS_y = block_y(1:6);
-    for j = 1:length(CNS_x)
-       plot([CNS_x(j) CNSx(j)], [CNS_y(j) CNSy(j)],'-g','HandleVisibility','off')
-       plot(CNS_x(j),CNS_y(j),['g',datablockMarkers{i}],'HandleVisibility','off')
-    end
-    
-    LEU_x = block_x(7:12);
-    LEU_y = block_y(7:12);
-    for j = 1:length(LEU_x)
-       plot([LEU_x(j) LEUx(j)], [LEU_y(j) LEUy(j)],'-b','HandleVisibility','off')
-       plot(LEU_x(j),LEU_y(j),['b',datablockMarkers{i}],'HandleVisibility','off')
-    end
-    
-    ME_x = block_x(13:21);
-    ME_y = block_y(13:21);
-    for j = 1:length(ME_x)
-       plot([ME_x(j) MEx(j)], [ME_y(j) MEy(j)],'-r','HandleVisibility','off')
-       plot(ME_x(j),ME_y(j),['r',datablockMarkers{i}],'HandleVisibility','off')
-    end
+    block_coords{i} = BS_norm{i}(:,1:2);
 end
-title('Plot of Projections onto First Two Scores')
-grid on;
 
-%% Plotting singular value decline
+% Known clusters for cell lines in the NCI60 dataset: CNS, Leukemia, and Melanoma
+CNS = 1:6; LEU = 7:12; ME = 13:21; 
+clusIndices = {CNS,LEU,ME};
+clusNames = {'CNS','Leukaemia','Melanoma'};
+
+multiBlockPlot(global_coords,block_coords,clusIndices,clusNames);
+set(gca, 'YDir','reverse'); % Fliping y axis to match plot in (Meng et. al., 2016) 
+
+%% Plotting singular value decline at each iteration
 figure()
 bar(evals.^2)
 title('Singular Value Decline')
