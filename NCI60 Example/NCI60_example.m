@@ -81,7 +81,7 @@ clusIndices = {CNS,LEU,ME};
 clusNames = {'CNS','Leukaemia','Melanoma'};
 
 multiBlockPlot(global_coords,block_coords,clusIndices,clusNames);
-set(gca, 'YDir','reverse'); % Fliping y axis to match plot in (Meng et. al., 2016) 
+% set(gca, 'YDir','reverse'); Fliping y axis to match plot in (Meng et. al., 2016) 
 
 %% Plotting singular value decline at each iteration
 figure()
